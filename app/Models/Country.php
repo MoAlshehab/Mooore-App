@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    use HasFactory;
+    use  HasFactory;
+
+
+    public function Product()
+{
+    return $this->hasMany(Product::class);
 }
+}
+
+
