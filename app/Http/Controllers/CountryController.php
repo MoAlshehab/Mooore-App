@@ -12,7 +12,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return Country::select('id', 'name', 'country-code')->get();
+        return Country::select('id', 'name', 'country_code')->get();
     }
 
     /**
@@ -28,7 +28,16 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'country_code' => 'required',
+    
+
+        ]);
+        Country::create($request->post());
+            return response()->json([
+                'message'=>'It is successfully'
+            ]);
     }
 
     /**
@@ -36,7 +45,9 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
-        //
+        return response()->json([
+            'country' => $country
+        ]);
     }
 
     /**
