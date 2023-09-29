@@ -21,6 +21,11 @@ class ProductsController extends Controller
         return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->get();
 
     }
+    public function nlProducts()
+    {
+        return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->where("country_id", 1)->get();
+
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -1,20 +1,34 @@
 
 import React, {useState, useEffect} from "react";
 import ProductsList from "../Pages/ProductsList"
+import Countries from "../Pages/Countries";
 const Products = ()=>{
     const [products, setProducts]=useState([])
     const [countries, setCountries]=useState([])
-    console.log("moooo",products);
-
+    const [productsCountry, setProductsCountry]=useState([])
+ 
    // feach products 
     useEffect(() => {
         fetchProducts();
-    }, [])
+    }, []) 
 
     const fetchProducts = ()=> {
         axios.get('/api/products/')
             .then(({data}) => {
                 setProducts(data)
+
+            })
+    }
+      // feach products 
+      useEffect(() => {
+        fetchProductsCpuntry();
+    }, [])
+
+    const fetchProductsCpuntry = ()=> {
+        axios.get('/api/products_country/')
+            .then(({data}) => {
+                setProductsCountry(data)
+                console.log(data);
 
             })
     }
@@ -33,9 +47,9 @@ const Products = ()=>{
 
    
 
-    const deleteAction = (id)=>{
+    const showNL = (id)=>{
 
-        const updatedProducts = products.filter(post=> post.id !=id);
+        const updatedProducts = products.filter(product=> product.country_id == 1);
         setProducts(updatedProducts)
     }
 
@@ -49,7 +63,10 @@ const Products = ()=>{
     return(
 
         <div>
-        <ProductsList products={products}  countries={countries} name="Products List" deleteAction={deleteAction} landFilter={landFilter}/>
+
+{/* <Countries products={products} countries={countries} name="Products List"  productsCountry={productsCountry}deleteAction={deleteAction} landFilter={landFilter}/> */}
+
+        <ProductsList products={products} countries={countries} name="Products List"  productsCountry={productsCountry}showNL={showNL} landFilter={landFilter}/>
         </div>
 
     );

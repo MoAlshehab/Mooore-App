@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index']);
 Route::get('/country', [App\Http\Controllers\CountryController::class, 'index']);
+Route::get('/products_country', [App\Http\Controllers\ProductsController::class, 'nlProducts']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
