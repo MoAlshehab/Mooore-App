@@ -10,9 +10,9 @@ class Country extends Model
     use  HasFactory;
     protected $fillable = ['id','name','country_code'];
 
-    public function product()
+    public function products()
     {
-        return $this->hasMany( Products::class ,'country_id', 'id');
+        return $this->hasMany( Products::class ,'id', 'country_id');
        
     }
 

@@ -3,6 +3,8 @@ import React, {useState, useEffect} from "react";
 
 const ProductsList=({products,name,deleteAction,countries})=> {
     const [showForm, setShowForm] = useState(false);
+    const [showCountry, setShowCountry] = useState(false);
+
     const [input, setInput] = useState("");
     const changeInput = (e) => {
         if (!e.target.value) {
@@ -16,6 +18,9 @@ const ProductsList=({products,name,deleteAction,countries})=> {
     const toggle = () => {
         setShowForm(!showForm);
     }
+    const landToggle= () => {
+        setShowCountry(!showCountry);
+    }
 console.log("landen",countries);
 console.log("products",products);
 
@@ -24,19 +29,24 @@ console.log("products",products);
 
         <div >
             <div className="main-container border border-collapse">
-            <h1 className=" text-center font-bold p-7">{name}</h1>
+            {!showCountry ?  <label  type="button" name="make" htmlFor="country_name">show Land</label> :  <label  name="make" htmlFor="country_name">Terug</label>}
+
                            
   { countries.map((country)=>(
     
-    <tr key={country.id}>
-    <div className="navigation ">
-    <h1 className=" font-semibold text-gray-500 m-6"><th>{country.name}</th></h1>
+    <th key={country.id}>
+    <div className="navigation bg-red-800">
+    <button onClick={landToggle}  className=" font-semibold"  id="country_name"/>
+            {showCountry ?    <td> <button className=" text-7xl font-semibold text-gray-500 m-6 p-7" onClick={() => deleteAction(country.id)} >{country.name}</button></td> : ""}
+
         {/* <td>{country.country_code}</td> */}
         </div>
-    </tr>
+    </th>
 
 ))}
             </div>
+            <h1 className=" text-center font-bold p-7">{name}</h1>
+
             <div className="list">
             <table className="table">
                 <thead>
@@ -54,7 +64,7 @@ console.log("products",products);
                 <tbody>
                   
                 {products.map((post)=>(
-                    <tr key={post.id}>
+                    <tr key={post.country_id}>
                         <td>{post.brand}</td>
                         <td>{post.type}</td>
                         <td>{post.description}</td>
@@ -62,7 +72,7 @@ console.log("products",products);
                         <td>{post.stock}</td>
                         <td> <button onClick={() => deleteAction(post.id)} >Edit</button></td>
                         <input onClick={toggle}  className=" font-semibold"  id="btn-check-outlined"/>
-                        <label  name="make" htmlFor="btn-check-outlined">edit stock</label>
+                        <label  name="make" htmlFor="btn-check-outlined">Edit stock</label>
             {showForm ?   <input type="text" 
                             value={input}
                               onChange={changeInput} required/> : ""}

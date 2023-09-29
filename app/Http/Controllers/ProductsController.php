@@ -18,7 +18,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return Products::select('id', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->get();
+        return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->get();
 
     }
 
