@@ -6,6 +6,8 @@ const Products = ()=>{
     const [products, setProducts]=useState([])
     const [countries, setCountries]=useState([])
     const [productsCountry, setProductsCountry]=useState([])
+    const [records, setRecords] = useState(products);
+
  
    // feach products 
     useEffect(() => {
@@ -16,6 +18,7 @@ const Products = ()=>{
         axios.get('/api/products/')
             .then(({data}) => {
                 setProducts(data)
+                setRecords(data)
 
             })
     }
@@ -49,24 +52,18 @@ const Products = ()=>{
 
     const showNL = (id)=>{
 
-        const updatedProducts = products.filter(product=> product.country_id == 1);
+        const updatedProducts = products.filter(product=> product.country_id == 2);
         setProducts(updatedProducts)
     }
 
-
-    const landFilter = (id)=>{
-
-        const updatedProducts = products.filter(post=> post.id !=country_id);
-        setProducts(updatedProducts)
-    }
   
     return(
 
         <div>
 
-{/* <Countries products={products} countries={countries} name="Products List"  productsCountry={productsCountry}deleteAction={deleteAction} landFilter={landFilter}/> */}
+{/* <Countries products={products} countries={countries} name="Products List"  productsCountry={productsCountry}/> */}
 
-        <ProductsList products={products} countries={countries} name="Products List"  productsCountry={productsCountry}showNL={showNL} landFilter={landFilter}/>
+        <ProductsList products={products} countries={countries} name="Products List"  productsCountry={productsCountry}showNL={showNL} />
         </div>
 
     );

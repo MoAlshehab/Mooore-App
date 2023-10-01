@@ -41,7 +41,6 @@ console.log("withCountry",productsCountry);
                 <thead>
                     
                 <tr>
-                    <th scope="col">Country</th>
                      <th scope="col">Brand</th>
                     <th scope="col">Type</th>
                     <th scope="col">Description</th>

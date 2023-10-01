@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Route::get('/products/update', [App\Http\Controllers\ProductsController::class, 'update']);
 
 Route::get('/', function () {
     return view('welcome');

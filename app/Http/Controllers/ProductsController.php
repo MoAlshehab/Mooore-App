@@ -18,14 +18,14 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->get();
+        return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
 
     }
-    public function nlProducts()
-    {
-        return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->where("country_id", 1)->get();
+    // public function nlProducts()
+    // {
+    //     return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location' )->with("country")->get();
 
-    }
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -53,6 +53,15 @@ class ProductsController extends Controller
             return response()->json([
                 'message'=>'It is successfully'
             ]);
+    }
+
+    public function nlProducts($country)
+    {
+
+     
+             $products = Products::find($country);     
+        
+        
     }
 
     /**
@@ -101,6 +110,9 @@ class ProductsController extends Controller
      */
     public function destroy(Products $products)
     {
-        //
+        $products->delete();
+        return response()->json([
+            'message'=>'Item deleted successfully'
+        ]);
     }
 }

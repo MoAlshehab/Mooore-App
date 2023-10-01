@@ -1,15 +1,21 @@
 import Home from "./Home"
 import React, {useState, useEffect} from "react";
 
-const ProductsList=({products,name,showNL,countries,productsCountry})=> {
+const ProductsList=({products,name,showNL,countries,productsCountry,setProducts})=> {
     const [showForm, setShowForm] = useState(false);
     const [showCountry, setShowCountry] = useState(false);
+    // const [records, setRecords] = useState(products);
+
 
     const toggle = () => {
         setShowForm(!showForm);
     }
     const landToggle= () => {
         setShowCountry(!showCountry);
+    }
+    const Filter= () => {
+        setProducts(products.filter(f = f.brand.toLwerCase().includes(evet.target.value)))
+
     }
 console.log("landen",countries);
 console.log("products",products);
@@ -35,12 +41,16 @@ console.log("withCountry",productsCountry);
 
 ))}
             </div>
+
+            <input onChange={Filter}></input>
             <h1 className=" text-center font-bold p-7">{name}</h1>
 
             <div className="list">
             <table className="table">
                 <thead>    
                 <tr>
+                <th scope="col">Country</th>
+
                      <th scope="col">Brand</th>
                     <th scope="col">Type</th>
                     <th scope="col">Description</th>
@@ -52,6 +62,7 @@ console.log("withCountry",productsCountry);
                 <tbody>
                 {products.map((product)=>(
                     <tr key={product.id}>
+                      <td>{product.country.name}</td>
                         <td>{product.brand}</td>
                         <td>{product.type}</td>
                         <td>{product.description}</td>
@@ -60,7 +71,7 @@ console.log("withCountry",productsCountry);
                         <button onClick={() => showNL(product.country_id)} >Nederland</button>  
 
                     <td>    
-                    {!showForm ?    <button  onClick={toggle}  name="make" htmlFor="btn-check-outlined">Edit stock</button> :
+                    {!showForm ?  <button  onClick={toggle}  name="make" htmlFor="btn-check-outlined">Edit stock</button> :
                         <button  onClick={toggle}  name="make" htmlFor="btn-check-outlined">Save</button>}
 
            </td>
