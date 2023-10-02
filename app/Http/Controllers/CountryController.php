@@ -12,7 +12,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return Country::select('id', 'name', 'country_code')->get();
+        return Country::select('id', 'name', 'country_code')->with("products")->get();
     }
 
     /**
@@ -22,6 +22,7 @@ class CountryController extends Controller
     {
         //
     }
+    
 
     /**
      * Store a newly created resource in storage.

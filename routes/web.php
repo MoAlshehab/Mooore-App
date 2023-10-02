@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Route::get('/products/update', [App\Http\Controllers\ProductsController::class, 'update']);
+// Route::get('/products/{country}', [App\Http\Controllers\ProductsController::class, 'showproducts']);
 
 Route::get('/', function () {
     return view('welcome');

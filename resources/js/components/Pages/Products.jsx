@@ -5,10 +5,7 @@ import Countries from "../Pages/Countries";
 const Products = ()=>{
     const [products, setProducts]=useState([])
     const [countries, setCountries]=useState([])
-    const [productsCountry, setProductsCountry]=useState([])
-    const [records, setRecords] = useState(products);
 
- 
    // feach products 
     useEffect(() => {
         fetchProducts();
@@ -18,52 +15,42 @@ const Products = ()=>{
         axios.get('/api/products/')
             .then(({data}) => {
                 setProducts(data)
-                setRecords(data)
 
             })
     }
-      // feach products 
-      useEffect(() => {
-        fetchProductsCpuntry();
-    }, [])
-
-    const fetchProductsCpuntry = ()=> {
-        axios.get('/api/products_country/')
-            .then(({data}) => {
-                setProductsCountry(data)
-                console.log(data);
-
-            })
-    }
-   // feach landen 
+  
+//    feach landen 
     useEffect(() => {
         fetchCountries();
     }, [])
 
     const fetchCountries = () => {
-        axios.get('/api/country/')
+        axios.get('/api/products/duisland')
             .then(({data}) => {
                 setCountries(data)
 
             })
     }
 
-   
+    const Filter = (event) => {
+        setProducts(products.filter(f => f.country.name.toLowerCase().includes(event.target.value)))
+
+    }
 
     const showNL = (id)=>{
 
-        const updatedProducts = products.filter(product=> product.country_id == 2);
+        const updatedProducts = products.filter(product=> product.country_id == product.country.id);
         setProducts(updatedProducts)
     }
 
   
     return(
 
-        <div>
+        <div>                  
+            
+      {/* <Countries products={products} countries={countries} name="Products List" showNL={showNL} Filter={Filter} /> */}
 
-{/* <Countries products={products} countries={countries} name="Products List"  productsCountry={productsCountry}/> */}
-
-        <ProductsList products={products} countries={countries} name="Products List"  productsCountry={productsCountry}showNL={showNL} />
+        <ProductsList products={products} countries={countries} name="Products List" showNL={showNL} Filter={Filter} />
         </div>
 
     );

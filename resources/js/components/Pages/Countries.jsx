@@ -2,9 +2,10 @@
 import Home from "./Home"
 import React, {useState, useEffect} from "react";
 
-const Countries=({products,name,deleteAction,countries,productsCountry})=> {
+const Countries=({products,name,countries,productsCountry,Filter})=> {
     const [showForm, setShowForm] = useState(false);
     const [showCountry, setShowCountry] = useState(false);
+
 
     const [input, setInput] = useState("");
     const changeInput = (e) => {
@@ -15,25 +16,32 @@ const Countries=({products,name,deleteAction,countries,productsCountry})=> {
         }
         setInput(e.target.value);
     }
+  
 
     const toggle = () => {
         setShowForm(!showForm);
     }
-    const landToggle= () => {
-        setShowCountry(!showCountry);
+    const showNl= () => {
     }
-console.log("landen",countries);
-console.log("products",products);
-console.log("withCountry",productsCountry);
+ 
+
+console.log("recogggggders",products);
+console.log("countriesPro",countries);
+
+
 
     
     return(
 
         <div >
+                            <button onClick={showNl}>Mo</button>
+
             <div className="main-container border border-collapse">
             {!showCountry ?  <label  type="button" name="make" htmlFor="country_name">show Land</label> :  <label  name="make" htmlFor="country_name">Terug</label>}
 
        </div>
+
+       <input onChange={Filter}></input>
        <h1 className=" text-center font-bold p-7">{name}</h1>
 
             <div className="list">
@@ -50,8 +58,8 @@ console.log("withCountry",productsCountry);
 
                 </tr>
                 </thead>
-                {!showCountry ?  <tbody>
-                {productsCountry.map((product)=>(
+              <tbody>
+                {countries.map((product)=>(
                     <tr key={product.id}>
                         <td>{product.brand}</td>
                         <td>{product.type}</td>
@@ -61,15 +69,15 @@ console.log("withCountry",productsCountry);
                         <td> <button onClick={() => deleteAction(post.id)} >Edit</button></td>
                         <input onClick={toggle}  className=" font-semibold"  id="btn-check-outlined"/>
                         <label  name="make" htmlFor="btn-check-outlined">Edit stock</label>
-            {showForm ?   <input type="text" 
+              <input type="text" 
                             value={input}
-                              onChange={changeInput} required/> : ""}
+                              onChange={changeInput} required/> 
                      
                     </tr>
 
                 ))}
 
-                </tbody>: ""}
+                </tbody>
             </table>
         </div>
         </div>

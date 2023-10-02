@@ -20,14 +20,8 @@ class ProductsController extends Controller
     {
         return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
 
-    }
-    // public function nlProducts()
-    // {
-    //     return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location' )->with("country")->get();
-
-    // }
-
-    /**
+    } 
+   /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -55,13 +49,10 @@ class ProductsController extends Controller
             ]);
     }
 
-    public function nlProducts($country)
+    public function nlProducts ()
     {
-
-     
-             $products = Products::find($country);     
-        
-        
+        return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id',3)->get();
+          
     }
 
     /**
@@ -71,6 +62,7 @@ class ProductsController extends Controller
     {
         return response()->json([
             'products' => $products
+            
         ]);
     }
 
@@ -104,7 +96,26 @@ class ProductsController extends Controller
             'message'=>'It is successfully'
         ]);
     }
-
+    public function showproducts( $country)
+    {
+        if($country == "nederland")
+        {  
+            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 1)->get();
+        }
+        if($country == "duisland")
+        {  
+            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 2)->get();
+        }
+        if($country == "engeland")
+        {  
+            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 3)->get();
+        }
+        if($country == "unknown")
+        {  
+            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 4)->get();
+        }
+// return $country;
+    }
     /**
      * Remove the specified resource from storage.
      */
