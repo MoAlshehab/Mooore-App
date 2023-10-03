@@ -14,5 +14,5 @@ import './bootstrap';
 
 import './components/Main';
 
-import "../css/app.css"
+// import "../css/app.css"
 import '../sass/app.scss'

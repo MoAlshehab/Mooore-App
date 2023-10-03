@@ -1,7 +1,10 @@
-import Home from "./Home"
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
+import '../../../css/app.css';
+import { Link } from 'react-router-dom';
 
-const ProductsList=({products,name,showNL,countries,Filter})=> {
+
+
+const ProductsList=({name,changeStock,updateStock,fetchNl,fetchEn,countries,fetchDu,fetchUn,fetchProducts,Filter})=> {
     const [showForm, setShowForm] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
 
@@ -14,66 +17,60 @@ const ProductsList=({products,name,showNL,countries,Filter})=> {
     }
  
 console.log("landen",countries);
-console.log("products",products);
     
     return(
 
         <div>
-
             <input onChange={Filter}></input>
             <h1 className=" text-center font-bold p-7">{name}</h1>
+         
             
-            {!showFilter ?  <label  onClick={landToggle} type="button" name="make" htmlFor="country_name">Filter</label> :  <label  onClick={landToggle}  name="make" htmlFor="country_name">X</label>}
+            {!showFilter ?  <label  className=" font-bold text-5xl m-9" onClick={landToggle} type="button" name="make" htmlFor="country_name">Filter</label> :  <label  onClick={landToggle}  name="make" htmlFor="country_name">X</label>}
 
-{showFilter ? <div className=" text-center text-lg bg-red-600">
+{showFilter ? <div className=" bg-red-800 m-11 p-10">
 
-<td className=" bg-zinc-950">
-    <input  type="checkbox" value="" />
-    <label >Nederland</label>
+<td className="">
+    <label   onClick={fetchNl} className=" bg-red-500" >Nederland</label>
 </td>
 <td className=" m-8 ">
-    <input  type="checkbox" value="" />
-    <label >Duitsland</label>
+    <label onClick={fetchDu}  className="p-10">Duitsland</label>
 </td>
 <td>
-    <input  type="checkbox" value="" />
-    <label >Engeland</label>
+    <label onClick={fetchEn} className=" m-10" >Engeland</label>
 </td>
 <td>
-    <input  type="checkbox" value="" />
-    <label >Onbekend</label>
+    <label  onClick={fetchUn}>Onbekend</label>
 </td>
 <td>
-    <input  type="checkbox" value="" />
-    <label>All</label>
+    <label onClick={fetchProducts} >All</label>
 </td> 
 </div>:""}
 
-            <table className="table">
+            <table className=" bg-red-900 table-column">
                 <thead>    
-                <tr>
+                <tr >
                     
-                <th scope="col">Country</th>
-                     <th scope="col">Brand</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Stocks</th>
-                    <th scope="col">Edit</th>
+                <th >Country</th>
+                     <th>Brand</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Stocks</th>
+                    <th>Edit</th>
                 </tr>
                 </thead>
-                <tbody>
-                {products.map((product)=>(
+                <tbody className=" bg-red-900">
+                {countries.map((product)=>(
                     <tr key={product.id}>
                       <td>{product.country.name}</td>
                         <td>{product.brand}</td>
                         <td>{product.type}</td>
                         <td>{product.description}</td>
                         <td>{product.location}</td>
-                        {showForm ? <input  value={product.stock} required/> :<td>{product.stock}</td>}
+                        {showForm ? <input onChange={changeStock} required/> :<td>{product.stock}</td>}
                     <td>    
                     {!showForm ?  <button  onClick={toggle}  name="make" htmlFor="btn-check-outlined">Edit stock</button> :
-                        <button  onClick={toggle}  name="make" htmlFor="btn-check-outlined">Save</button>}
+                        <button  onClick={updateStock}  name="make" htmlFor="btn-check-outlined">Save</button>}
 
            </td>
                      

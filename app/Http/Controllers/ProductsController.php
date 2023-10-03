@@ -49,11 +49,7 @@ class ProductsController extends Controller
             ]);
     }
 
-    public function nlProducts ()
-    {
-        return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id',3)->get();
-          
-    }
+
 
     /**
      * Display the specified resource.
@@ -80,22 +76,31 @@ class ProductsController extends Controller
     public function update(Request $request, Products $products)
     {
         $request->validate([
-            'country_id' => 'required',
-            'brand' => 'required',
-            'type' => 'required',
-            'description' => 'required',
+            // 'country_id' => 'required',
+            // 'brand' => 'required',
+            // 'type' => 'required',
+            // 'description' => 'required',
             'stock' => 'nullable',
-            'location' => 'required',
-
+            // 'location' => 'required',
         ]);
-        $products->fill($request->post())->update();
+
+            $products->stock = $request->stock;
+            $products->save();
+
+        // ]);
+        // $products->fill($request->post())->update();
 
 
-        Products::create($request->post())->save();
-        return response()->json([
-            'message'=>'It is successfully'
-        ]);
+        // Products::create($request->post())->save();
+        // return response()->json([
+        //     'message'=>'It is successfully'
+        // ]);
+        // return redirect()->back();
+
     }
+
+
+    
     public function showproducts( $country)
     {
         if($country == "nederland")
@@ -113,6 +118,10 @@ class ProductsController extends Controller
         if($country == "unknown")
         {  
             return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 4)->get();
+        }
+        if($country == "all")
+        {  
+            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
         }
 // return $country;
     }

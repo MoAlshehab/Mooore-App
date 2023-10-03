@@ -2,10 +2,19 @@
 export default {
   content: [
 
-    "./resources/**/*.{js,jsx,ts,tsx}"
+    "./resources/**/*.blade.php",
+    "./resources/**/*.js",
+    "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+colors:{
+grays: '#737373',
+
+}
+
+
+    },
   },
   plugins: [],
 }

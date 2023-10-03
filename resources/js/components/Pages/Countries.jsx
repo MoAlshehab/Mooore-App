@@ -2,7 +2,7 @@
 import Home from "./Home"
 import React, {useState, useEffect} from "react";
 
-const Countries=({products,name,countries,productsCountry,Filter})=> {
+const Countries=({products,name,countries,fetchCountries,fetchCountriesNl,Filter})=> {
     const [showForm, setShowForm] = useState(false);
     const [showCountry, setShowCountry] = useState(false);
 
@@ -34,7 +34,10 @@ console.log("countriesPro",countries);
     return(
 
         <div >
-                            <button onClick={showNl}>Mo</button>
+
+<button onClick={fetchCountries}>Dui</button>
+
+                            <button onClick={fetchCountriesNl}>NL</button>
 
             <div className="main-container border border-collapse">
             {!showCountry ?  <label  type="button" name="make" htmlFor="country_name">show Land</label> :  <label  name="make" htmlFor="country_name">Terug</label>}
