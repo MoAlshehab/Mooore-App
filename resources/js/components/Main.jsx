@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Home from './Pages/Home';
 import Products from './Pages/Products';
 import '../../sass/app.scss';
+import '../../css/app.css';
 // import axios from 'axios';
 
 

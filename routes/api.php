@@ -16,13 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index']);
 Route::get('/country', [App\Http\Controllers\CountryController::class, 'index']);
 Route::get('/products/{country}', [App\Http\Controllers\ProductsController::class, 'showproducts']);
-Route::post('/products/edit/{product}', [App\Http\Controllers\ProductsController::class, 'update']);
-
-
-
-
-// Route::get('/products/update', [App\Http\Controllers\ProductsController::class, 'update']);
-
+Route::put('/products/{country}/update-stock', [App\Http\Controllers\ProductsController::class, 'updateStock']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

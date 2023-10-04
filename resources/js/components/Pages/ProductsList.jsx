@@ -1,87 +1,161 @@
-import React, {useState} from "react";
-import '../../../css/app.css';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 
+const ProductsList = ({
+  fetchNl,
+  fetchEn,
+  countries,
+  fetchDu,
+  fetchUn,
+  fetchProducts,
+  Filter,
+}) => {
+  const [showForm, setShowForm] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [editedStock, setEditedStock] = useState({});
+  const [products, setProducts] = useState([]);
 
+  const toggle = () => {
+    setShowForm(!showForm);
+  };
 
-const ProductsList=({name,changeStock,updateStock,fetchNl,fetchEn,countries,fetchDu,fetchUn,fetchProducts,Filter})=> {
-    const [showForm, setShowForm] = useState(false);
-    const [showFilter, setShowFilter] = useState(false);
+  const landToggle = () => {
+    setShowFilter(!showFilter);
+  };
 
+  const updateStock = (productId) => {
+    const updatedStockValue = editedStock[productId];
+    axios
+      .put(`/api/products/${productId}/update-stock`, { stock: updatedStockValue })
+      .then(() => {
+        console.log("Stock is successfully updated");
+        // Reload the data or perform any other necessary actions
+      })
+      .catch((error) => {
+        console.error("Error updating stock", error);
+        // Handle errors
+      });
+  };
 
-    const toggle = () => {
-        setShowForm(!showForm);
-    }
-    const landToggle= () => {
-        setShowFilter(!showFilter);
-    }
- 
-console.log("landen",countries);
-    
-    return(
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
-        <div>
-            <input onChange={Filter}></input>
-            <h1 className=" text-center font-bold p-7">{name}</h1>
-         
-            
-            {!showFilter ?  <label  className=" font-bold text-5xl m-9" onClick={landToggle} type="button" name="make" htmlFor="country_name">Filter</label> :  <label  onClick={landToggle}  name="make" htmlFor="country_name">X</label>}
+  const fetchProduct = () => {
+    axios.get("/api/products").then(({ data }) => {
+      setProducts(data);
+    });
+  };
 
-{showFilter ? <div className=" bg-red-800 m-11 p-10">
-
-<td className="">
-    <label   onClick={fetchNl} className=" bg-red-500" >Nederland</label>
-</td>
-<td className=" m-8 ">
-    <label onClick={fetchDu}  className="p-10">Duitsland</label>
-</td>
-<td>
-    <label onClick={fetchEn} className=" m-10" >Engeland</label>
-</td>
-<td>
-    <label  onClick={fetchUn}>Onbekend</label>
-</td>
-<td>
-    <label onClick={fetchProducts} >All</label>
-</td> 
-</div>:""}
-
-            <table className=" bg-red-900 table-column">
-                <thead>    
-                <tr >
-                    
-                <th >Country</th>
-                     <th>Brand</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Location</th>
-                    <th>Stocks</th>
-                    <th>Edit</th>
-                </tr>
-                </thead>
-                <tbody className=" bg-red-900">
-                {countries.map((product)=>(
-                    <tr key={product.id}>
-                      <td>{product.country.name}</td>
-                        <td>{product.brand}</td>
-                        <td>{product.type}</td>
-                        <td>{product.description}</td>
-                        <td>{product.location}</td>
-                        {showForm ? <input onChange={changeStock} required/> :<td>{product.stock}</td>}
-                    <td>    
-                    {!showForm ?  <button  onClick={toggle}  name="make" htmlFor="btn-check-outlined">Edit stock</button> :
-                        <button  onClick={updateStock}  name="make" htmlFor="btn-check-outlined">Save</button>}
-
-           </td>
-                     
-                    </tr>
-
-                ))}
-
-                </tbody>
-            </table>
+  return (
+    <div>
+      <input onChange={Filter}></input>
+      {showForm ? <input required /> : ""}
+      {showForm ? (
+        <button onClick={() => setShowForm(!showForm)}>Cancel</button>
+      ) : (
+        ""
+      )}
+      <br></br>
+      {!showFilter ? (
+        <label
+          className="font-bold text-5xl mb-10"
+          onClick={landToggle}
+          type="button"
+          name="make"
+          htmlFor="country_name"
+        >
+          Filter
+        </label>
+      ) : (
+        <label onClick={landToggle} name="make" htmlFor="country_name">
+          X
+        </label>
+      )}
+      {showFilter ? (
+        <div className="text-center">
+          <td className="">
+            <label onClick={fetchNl} className="bg-red-500">
+              Nederland
+            </label>
+          </td>
+          <td className="m-8">
+            <label onClick={fetchDu} className="p-10">
+              Duitsland
+            </label>
+          </td>
+          <td>
+            <label onClick={fetchEn} className="m-10">
+              Engeland
+            </label>
+          </td>
+          <td>
+            <label onClick={fetchUn}>Onbekend</label>
+          </td>
+          <td>
+            <label onClick={fetchProducts}>All</label>
+          </td>
         </div>
-        
-    );
-}
+      ) : (
+        ""
+      )}
+      <div className="bg-red-900">
+        <table>
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Brand</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Location</th>
+              <th>Stocks</th>
+              {!showForm ? <th>Edit</th> : ""}
+            </tr>
+          </thead>
+          <tbody>
+            {countries.map((product) => (
+              <tr key={product.id}>
+                <td>{product.country.name}</td>
+                <td>{product.brand}</td>
+                <td>{product.type}</td>
+                <td>{product.description}</td>
+                <td>{product.location}</td>
+                <td>
+                  {!showForm ? (
+                    <span>{product.stock}</span>
+                  ) : (
+                    <input
+                      type="number"
+                      value={editedStock[product.stock] && product.stock}
+                      onChange={(e) => {
+                        setEditedStock({
+                          ...editedStock,
+                          [product.id]: e.target.value,
+                        });
+                      }}
+                    />
+                  )}
+                </td>
+                <td>
+                  {!showForm ? (
+                    <button onClick={toggle}>Edit stock</button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        updateStock(product.id);
+                        toggle();
+                      }}
+                    >
+                      Save
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 export default ProductsList;

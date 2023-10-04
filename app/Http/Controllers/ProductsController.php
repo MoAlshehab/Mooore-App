@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use App\Models\Country;
+
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -32,7 +34,7 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request )
     {
         $request->validate([
             'country_id' => 'required',
@@ -70,61 +72,32 @@ class ProductsController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Products $products)
+  
+
+    public function showproducts($country)
     {
-        $request->validate([
-            // 'country_id' => 'required',
-            // 'brand' => 'required',
-            // 'type' => 'required',
-            // 'description' => 'required',
-            'stock' => 'nullable',
-            // 'location' => 'required',
-        ]);
-
-            $products->stock = $request->stock;
-            $products->save();
-
-        // ]);
-        // $products->fill($request->post())->update();
-
-
-        // Products::create($request->post())->save();
-        // return response()->json([
-        //     'message'=>'It is successfully'
-        // ]);
-        // return redirect()->back();
-
-    }
-
-
+        $countryMapping = [
+            'nederland' => 1,
+            'duisland' => 2,
+            'engeland' => 3,
+            'unknown' => 4,
+        ];
     
-    public function showproducts( $country)
-    {
-        if($country == "nederland")
-        {  
-            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 1)->get();
+        $query = Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')
+            ->with("country");
+    
+        if (isset($countryMapping[$country])) {
+            $query->where('country_id', $countryMapping[$country]);
         }
-        if($country == "duisland")
-        {  
-            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 2)->get();
-        }
-        if($country == "engeland")
-        {  
-            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 3)->get();
-        }
-        if($country == "unknown")
-        {  
-            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->where('country_id', 4)->get();
-        }
-        if($country == "all")
-        {  
-            return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
-        }
-// return $country;
+    
+        // Haal de producten op
+        $products = $query->get();
+    
+        return $products;
     }
+    
+// return $country;
+    
     /**
      * Remove the specified resource from storage.
      */
@@ -135,4 +108,50 @@ class ProductsController extends Controller
             'message'=>'Item deleted successfully'
         ]);
     }
+     public function update( Products $products,Request $request,)
+    {
+          $request->validate([
+            // 'country_id' => 'required',
+            // 'brand' => 'required',
+            // 'type' => 'required',
+            // 'description' => 'required',
+            'stock' => 'required',
+            // 'location' => 'required',
+        ]);
+        
+            $products->stock = $request->stock;
+            $products->save();
+
+        return redirect()->back();
+
+    }
+    
+    public function updateStock(Request $request, $id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product niet gevonden'], 404);
+        }
+
+        $request->validate([
+            'stock' => 'required|integer',
+        ]);
+
+        $product->stock = $request->input('stock');
+        $product->save();
+
+        return response()->json(['message' => 'Voorraad bijgewerkt']);
+    }
+
+    public function getProductsByCountry($country)
+{
+    return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
+}
+
+public function getCountries()
+{
+    return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
+}
+
 }

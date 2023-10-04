@@ -4,7 +4,7 @@
  * building robust, powerful web applications using React + Laravel.
  */
 
-import './bootstrap';
+// import './bootstrap';
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -16,3 +16,7 @@ import './components/Main';
 
 // import "../css/app.css"
 import '../sass/app.scss'
+import axios from 'axios';
+window.axios = axios;
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
