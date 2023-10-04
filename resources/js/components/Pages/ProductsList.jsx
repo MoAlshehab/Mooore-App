@@ -28,7 +28,6 @@ const ProductsList = ({
       .put(`/api/products/${productId}/update-stock`, { stock: updatedStockValue })
       .then(() => {
         console.log("Stock is successfully updated");
-        // Reload the data or perform any other necessary actions
       })
       .catch((error) => {
         console.error("Error updating stock", error);
@@ -48,7 +47,7 @@ const ProductsList = ({
 
   return (
     <div>
-      <input onChange={Filter}></input>
+      <input  className=" bg-red-100"onChange={Filter}></input>
       {showForm ? <input required /> : ""}
       {showForm ? (
         <button onClick={() => setShowForm(!showForm)}>Cancel</button>

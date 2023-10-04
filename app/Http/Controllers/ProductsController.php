@@ -108,27 +108,11 @@ class ProductsController extends Controller
             'message'=>'Item deleted successfully'
         ]);
     }
-     public function update( Products $products,Request $request,)
-    {
-          $request->validate([
-            // 'country_id' => 'required',
-            // 'brand' => 'required',
-            // 'type' => 'required',
-            // 'description' => 'required',
-            'stock' => 'required',
-            // 'location' => 'required',
-        ]);
-        
-            $products->stock = $request->stock;
-            $products->save();
 
-        return redirect()->back();
-
-    }
     
     public function updateStock(Request $request, $id)
     {
-        $product = Product::find($id);
+        $product = Products::find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Product niet gevonden'], 404);
@@ -143,15 +127,5 @@ class ProductsController extends Controller
 
         return response()->json(['message' => 'Voorraad bijgewerkt']);
     }
-
-    public function getProductsByCountry($country)
-{
-    return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
-}
-
-public function getCountries()
-{
-    return Products::select('id_stnk', 'country_id', 'brand', 'type', 'description', 'stock', 'location')->with("country")->get();
-}
 
 }

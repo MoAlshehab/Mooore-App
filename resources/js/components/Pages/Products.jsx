@@ -1,7 +1,6 @@
 
 import React, {useState, useEffect} from "react";
 import ProductsList from "../Pages/ProductsList"
-import Countries from "../Pages/Countries";
 const Products = ()=>{
     const [countries, setCountries]=useState([])
 
@@ -72,12 +71,7 @@ const Products = ()=>{
 
     return(
 
-        <div className=" text-center font-bold mb-9">    
-
-                      
-            
-    {/* <Countries products={products} countries={countries}  fetchCountriesNl={fetchCountriesNl}fetchCountries={fetchCountries} name="Products List" showNL={showNL} Filter={Filter} /> */}
-
+        <div className=" text-center font-bold m-9 bg-red-800">    
         <ProductsList countries={countries}fetchEn={fetchEn} fetchProducts={fetchProducts} fetchUn={fetchUn} fetchNl={fetchNl} fetchDu={fetchDu} Filter={Filter} />
         </div>
 
